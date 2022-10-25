@@ -11,7 +11,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  width: 450px;
+  width: 750px;
   padding: 10px;
   justify-content: center;
   align-items: center;
@@ -32,14 +32,15 @@ body {
   margin-top: 20px;
   order: 1;
   font-weight: bold;
-  font-size: 12pt;
+  font-size: 26pt;
   width: 450px;
   display: flex;
   color: #ffd639;
-  margin-bottom: 45px;
+  margin-bottom: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-right: 40px;
 }
 
 .form-div {
@@ -58,7 +59,7 @@ body {
   display: flex;
   box-sizing: border-box;
   background: transparent;
-  border: 1px solid #a9bcd0;
+  border: 1px solid #ffd639;
   padding: 2px;
   margin: 8px 0;
   border-radius: 30px;
@@ -93,14 +94,35 @@ body {
   justify-content: center;
 }
 
-.map-div {
+.content-div {
+  margin-top: 70px;
   order: 4;
-  width: 450px;
+  display: flex;
+  flex-direction: row;
+  width: 700px;
   text-align: center;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
+  border: 0px solid #a9bcd0;
+  gap: 15px;
 }
 
+.map-div {
+  order: 1;
+  border: 1px solid #a9bcd0;
+  border-radius: 15px;
+  padding: 20px;
+  height: 90px;
+  width: 30%;
+}
+.map-div2 {
+  order: 2;
+  border: 1px solid #a9bcd0;
+  border-radius: 15px;
+  padding: 20px;
+  height: 90px;
+  width: 60%;
+}
 .img {
-  width: 10%;
+  width: 20%;
 }
