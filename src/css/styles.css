@@ -1,7 +1,7 @@
 body {
   color: #a9bcd0;
   background-color: #2b4162;
-  background-image: -webkit-linear-gradient(#2b4162, #22314a);
+  background-image: -webkit-linear-gradient(#30486c, #212e45);
   font-size: 11pt;
   background-repeat: no-repeat;
   min-width: 100%;
@@ -36,7 +36,7 @@ body {
   width: 450px;
   display: flex;
   color: #ffd639;
-  margin-bottom: 35px;
+  margin-bottom: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +61,7 @@ body {
   border: 1px solid #a9bcd0;
   padding: 2px;
   margin: 8px 0;
-  border-radius: 10px;
+  border-radius: 30px;
   align-items: center;
   justify-content: center;
 }
@@ -87,7 +87,7 @@ body {
 
 .button-div {
   order: 3;
-  width: 400px;
+  width: 450px;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -95,7 +95,7 @@ body {
 
 .map-div {
   order: 4;
-  width: 400px;
+  width: 450px;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -103,10 +103,4 @@ body {
 
 .img {
   width: 10%;
-}
-
-.svg-icon.search-icon {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
 }
