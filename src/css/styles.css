@@ -1,35 +1,46 @@
 body {
-  color: #F5F0F6;
+  color: #A9BCD0;
   background-color: #2B4162;
+  background-image: -webkit-linear-gradient(#2b4162,#22314a);
   font-size: 11pt;
+  background-repeat: no-repeat;
+  min-width: 100%;
+  min-height: 100vh;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   margin: auto;
-  width:400px;
-  background-color: #385F71;
+  margin-top: 20px;
+  width:450px;
   padding: 10px;
   justify-content: center;
   align-items: center;
   padding-bottom: 3px;
   gap: 5px;
+  border: 1px solid #A9BCD0;
+  border-radius: 15px;
+
+  
 } 
 
 .header {
   order: 1;
   font-size: 9pt;
-  width: 390px;
-  color: #D7B377;
+  width: 450px;
+  color: #A9BCD0;
+  padding-left: 22px;
 }
 .title {
   order: 2;
   font-weight: bold;
   font-size: 12pt;
-  width: 390px;
+  width: 450px;
   display: flex;
-  color: #f9d393;
+  color: #F7A072;
+  padding-left: 22px;
+  margin-bottom: 5px;
 
 }
 
@@ -40,24 +51,35 @@ body {
     margin-top: 20px;
 }
 
+.input-div {
+  width: 250px;
+  height: 40px;
+  color: #D7B377;
+  display: flex;
+  box-sizing: border-box;
+  background: transparent;
+  border: 1px solid #A9BCD0;
+  padding: 2px;
+  margin: 8px 0;
+  border-radius: 10px;
+}
+
 .inputBar {
   width: 200px;
+  height: 30px;
   color: #D7B377;
   box-sizing: border-box;
-  background-color: #2B4162;
-  border: 1px solid #D7B377;
-  padding: 8px 20px;
-  margin: 8px 0;
+  background: transparent;
+  border: 0px solid #A9BCD0;
+  border-radius: 10px;
 }
 
 .inputBar:focus {
   width: 200px;
   color: #D7B377;
   box-sizing: border-box;
-  background-color: #2B4162;
-  border: 1px solid #35c9ff;
-  padding: 8px 20px;
-  margin: 8px 0;
+  background: transparent;
+  border: 0px solid #35c9ff;
   outline: none
 }
 
@@ -67,6 +89,18 @@ body {
   text-align: center;
 }
 
+.button-div {
+  order: 5;
+  width: 400px;
+  text-align: center;
+}
+
 .img {
   width: 10%;
+}
+
+.svg-icon.search-icon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
 }
