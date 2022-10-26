@@ -1,72 +1,128 @@
 body {
-  color: #F5F0F6;
-  background-color: #2B4162;
+  color: #a9bcd0;
+  background-color: #2b4162;
+  background-image: -webkit-linear-gradient(#30486c, #212e45);
   font-size: 11pt;
+  background-repeat: no-repeat;
+  min-width: 100%;
+  min-height: 100vh;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  margin: auto;
-  width:400px;
-  background-color: #385F71;
+  width: 750px;
   padding: 10px;
   justify-content: center;
   align-items: center;
-  padding-bottom: 3px;
   gap: 5px;
-} 
-
-.header {
-  order: 1;
-  font-size: 9pt;
-  width: 390px;
-  color: #D7B377;
+  border: 0px solid #a9bcd0;
+  border-radius: 15px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background: rgba(43, 65, 98,  .0)
 }
-.title {
-  order: 2;
-  font-weight: bold;
-  font-size: 12pt;
-  width: 390px;
-  display: flex;
-  color: #f9d393;
 
+.title {
+  margin-top: 20px;
+  order: 1;
+  font-weight: bold;
+  font-size: 26pt;
+  width: 450px;
+  display: flex;
+  color: #ffd639;
+  margin-bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 40px;
 }
 
 .form-div {
-    order: 3;
-    width: 400px;
-    text-align: center;
-    margin-top: 20px;
+  order: 2;
+  width: 450px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.input-div {
+  width: 250px;
+  height: 40px;
+  color: #d7b377;
+  display: flex;
+  box-sizing: border-box;
+  background: transparent;
+  border: 1px solid #ffd639;
+  padding: 2px;
+  margin: 8px 0;
+  border-radius: 30px;
+  align-items: center;
+  justify-content: center;
 }
 
 .inputBar {
   width: 200px;
-  color: #D7B377;
+  height: 30px;
+  color: #d7b377;
   box-sizing: border-box;
-  background-color: #2B4162;
-  border: 1px solid #D7B377;
-  padding: 8px 20px;
-  margin: 8px 0;
+  background: transparent;
+  border: 0px solid #a9bcd0;
+  border-radius: 10px;
 }
 
 .inputBar:focus {
   width: 200px;
-  color: #D7B377;
+  color: #d7b377;
   box-sizing: border-box;
-  background-color: #2B4162;
-  border: 1px solid #35c9ff;
-  padding: 8px 20px;
-  margin: 8px 0;
-  outline: none
+  background: transparent;
+  border: 0px solid #35c9ff;
+  outline: none;
+}
+
+.button-div {
+  order: 3;
+  width: 450px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-div {
+  margin-top: 70px;
+  order: 4;
+  display: flex;
+  flex-direction: row;
+  width: 700px;
+  text-align: center;
+  align-items: center;
+  justify-content: left;
+  border: 0px solid #a9bcd0;
+  gap: 15px;
 }
 
 .map-div {
-  order: 4;
-  width: 400px;
-  text-align: center;
+  order: 1;
+  border: 1px solid #a9bcd0;
+  border-radius: 15px;
+  padding: 20px;
+  height: 90px;
+  width: 30%;
 }
-
+.map-div2 {
+  order: 2;
+  border: 1px solid #a9bcd0;
+  border-radius: 15px;
+  padding: 20px;
+  height: 90px;
+  width: 60%;
+}
 .img {
-  width: 10%;
+  width: 20%;
 }
