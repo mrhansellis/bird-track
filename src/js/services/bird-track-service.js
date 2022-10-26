@@ -1,4 +1,4 @@
-export default class BirdTrackerService {
+export class BirdTrackerService {
   static getSpeciescode() {
     return fetch(`https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json`)
       .then(function(response) {

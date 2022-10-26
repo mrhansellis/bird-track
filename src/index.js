@@ -1,6 +1,8 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
-import {getApiData} from './js/get-apidata.js';
+import { getAPIData } from './js/get-apidata.js';
 
-getApiData("goose");
+let commonName = "goose".toLowerCase();
+
+getAPIData(commonName).then((results) => console.log(results));

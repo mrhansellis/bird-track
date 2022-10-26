@@ -1,9 +1,10 @@
-import BirdTrackerService from './services/bird-track-service.js';
+import { BirdTrackerService } from './services/bird-track-service.js';
 
 
 export function getAPIData(comNameInput) {
-  BirdTrackerService.getSpeciescode()
+  return BirdTrackerService.getSpeciescode()
     .then(function(birdTrackerResponse) {
+
       if (birdTrackerResponse instanceof Error) {
         const errorMessage = `There was a problem accessing the bird data from eBird API,
         Status code: ${birdTrackerResponse.message}`;
@@ -29,15 +30,18 @@ export function getAPIData(comNameInput) {
         console.log(birdTrackerResponse[searchResultIndex[0]].speciesCode);
         return birdTrackerResponse[searchResultIndex[0]].speciesCode;
 
-      } else if (searchResultIndex.length > 10) {
+      } else if (searchResultIndex.length > 11) {
         return "Your search result was too broad, please provide a more specific common name.";
 
       } else if (searchResultIndex.length <=11 && searchResultIndex.length !== 0) {
-          for(const element of searchResultIndex) {
-            return (birdTrackerResponse[element].comName +" "+ birdTrackerResponse[element].speciesCode);
-          }
+          const results = searchResultIndex.map((index) => {
+            return `${birdTrackerResponse[index].comName} ${birdTrackerResponse[index].speciesCode}`;
+          });
 
-      } else {
+          return  Promise.resolve(results);
+        }
+
+       else {
         console.log( "SpeciesCode was not found for " + comNameInput + " " + searchResultIndex.length);
         return null;
       }                  
