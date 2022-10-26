@@ -28,7 +28,6 @@
     "webpack-dev-server": "3.11.3"
   },
   "dependencies": {
-    "bootstrap": "^4.5.3",
-    "jquery-csv": "^1.0.21"
+    "bootstrap": "^4.5.3"
   }
 }
