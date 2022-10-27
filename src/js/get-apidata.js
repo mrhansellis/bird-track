@@ -1,5 +1,5 @@
 import { BirdTrackerService } from './services/bird-track-service.js';
-
+import { BirdLocationService } from './services/bird-location-service.js';
 
 export function getAPIData(comNameInput) {
   return BirdTrackerService.getSpeciescode()
@@ -37,7 +37,6 @@ export function getAPIData(comNameInput) {
           const results = searchResultIndex.map((index) => {
             return `${birdTrackerResponse[index].comName} ${birdTrackerResponse[index].speciesCode}`;
           });
-
           return  Promise.resolve(results);
         }
 
@@ -49,4 +48,16 @@ export function getAPIData(comNameInput) {
     .catch(function(error) {
       console.log(error);
     });
+}
+
+export function getBirdLocation(speciesCodeConv)  {
+  speciesCodeConv = "goose".toLowerCase();
+  BirdLocationService.getBirdLocation(speciesCodeConv)
+  .then(function(birdTrackerResponse) {
+    if (birdTrackerResponse instanceof Error) {
+      const errorMessage = `There was a problem accessing the bird data from eBird API,
+      Status code: ${birdTrackerResponse.message}`;
+      throw new Error(errorMessage);
+    }
+  });
 }
