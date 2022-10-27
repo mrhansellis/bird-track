@@ -4,7 +4,6 @@ import { BirdLocationService } from './services/bird-location-service.js';
 export function getAPIData(comNameInput) {
   return BirdTrackerService.getSpeciescode()
     .then(function(birdTrackerResponse) {
-
       if (birdTrackerResponse instanceof Error) {
         const errorMessage = `There was a problem accessing the bird data from eBird API,
         Status code: ${birdTrackerResponse.message}`;
@@ -51,7 +50,6 @@ export function getAPIData(comNameInput) {
 }
 
 export function getBirdLocation(speciesCodeConv)  {
-  speciesCodeConv = "goose".toLowerCase();
   BirdLocationService.getBirdLocation(speciesCodeConv)
   .then(function(birdTrackerResponse) {
     if (birdTrackerResponse instanceof Error) {
@@ -59,5 +57,8 @@ export function getBirdLocation(speciesCodeConv)  {
       Status code: ${birdTrackerResponse.message}`;
       throw new Error(errorMessage);
     }
+  })
+  .catch(function(error)  {
+    console.log(error);
   });
 }
