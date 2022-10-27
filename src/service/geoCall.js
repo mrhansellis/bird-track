@@ -1,6 +1,7 @@
 export default class GeoCall {
   static geoGrab() {
-  const url = `https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyD1JnKOAYtkPTzqX9oMH8yRmJkadekEUd8`
+  const url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.MAPS_KEY}`
+
   fetch(url , {
     method: "POST"
     })
