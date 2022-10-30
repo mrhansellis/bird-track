@@ -1,4 +1,4 @@
-import { BirdTrackerService } from './services/bird-track-service.js';
+import { BirdTrackerService } from '../service/bird-track-service.js';
 //import { BirdLocationService } from './services/bird-location-service.js';
 
 let birdNames = [];
