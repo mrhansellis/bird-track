@@ -9,7 +9,7 @@ export default class GeoCall {
     if (radioBtnVal === 'ip') {
       url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.MAPS_KEY}`;
     } else if (radioBtnVal === 'manual') {
-      const userAddressApiArg = radioManualTxt.split('').join('+');
+      const userAddressApiArg = radioManualTxt.split(' ').join('-');
       url = `https://maps.googleapis.com/maps/api/geocode/json?address=${userAddressApiArg}&key=${process.env.MAPS_KEY}`;
     } else {
       //an error if the user manages to break the radio button binary choice
@@ -20,25 +20,25 @@ export default class GeoCall {
     fetch(url, {
       method: "POST"
     })
-      .then((response) => {
-        if (!response.ok) {
-          const errorMessage = `${response.status} ${response.statusText}`;
-          throw new Error(errorMessage);
-        } else {
-          const jsonResponse = response.json();
-          return jsonResponse;
-        }
-      })
-      
-      .then((jsonResponse) => {
-      let location;
-      if (radioBtnVal === 'ip') {
-        location = [jsonResponse['location']['lat'], jsonResponse['location']['lng']];
-      } else if (radioBtnVal === 'manual') {
-        location = [jsonResponse.results[0].geometry.location.lat, jsonResponse.results[0].geometry.location.lng];
+    .then((response) => {
+      if (!response.ok) {
+        const errorMessage = `${response.status} ${response.statusText}`;
+        throw new Error(errorMessage);
+      } else {
+        const jsonResponse = response.json();
+        return jsonResponse;
       }
-      return location;
     })
+      
+    .then((jsonResponse) => {
+    let location;
+    if (radioBtnVal === 'ip') {
+      location = [jsonResponse['location']['lat'], jsonResponse['location']['lng']];
+    } else if (radioBtnVal === 'manual') {
+      location = [jsonResponse.results[0].geometry.location.lat, jsonResponse.results[0].geometry.location.lng];
+    }
+    return location;
+  })
 
     .catch((error) => {
       return error;
