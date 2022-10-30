@@ -8,7 +8,7 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "./dist"),
   },
   devtool: "eval-source-map",
   devServer: {
@@ -18,8 +18,8 @@ module.exports = {
     new ESLintPlugin(),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "Currency-Exchange",
-      template: "./src/index.html",
+      title: "Bird Tracker",
+      template: "./index.html",
       inject: "body",
     }),
     new Dotenv(),
