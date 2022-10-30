@@ -28,7 +28,7 @@ function onKeyInputChange() {
   const filteredBirdNames = [];
   const value = birdNameInputElement.value.toLowerCase();
 
-  if(value.lenght === 0) {
+  if(value.length === 0) {
     return;
   } 
   

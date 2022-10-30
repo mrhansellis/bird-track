@@ -1,4 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
+  width: 100%;
+  height: 100vh;
+  background-color: #e9e9e9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  border: unset;
+  background: #e9e9e9;
+  padding: .5em;
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn-submit {
+  border: unset;
+  background-color: rgb(47, 178, 222);
+  padding: .5em;
+  color:#ffffff;
+}
+
+.autocomplete-list-div {
+  display: inline-block;
+  position: relative;
+}
+
+.autocomplete-list {
+  list-style: none;
+  padding: unset;
+  margin: unset;
+  position: absolute;
+  width: 100%;
+}
+
+.autocomplete-list li {
+  border: 1px solid #e9e9e9;
+  border-top: unset;
+}
+
+.autocomplete-list li:hover {
+  background: #faf6f6;
+}
+
+.autocomplete-list button {
+  border: unset;
+  background: unset;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: .5em;
+}
+
+/*body {
   color: #a9bcd0;
   background-color: #2b4162;
   background-image: -webkit-linear-gradient(#30486c, #212e45);
@@ -125,4 +186,4 @@ body {
 }
 .img {
   width: 20%;
-}
+}*/
