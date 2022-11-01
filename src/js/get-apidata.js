@@ -1,11 +1,12 @@
 import { BirdTrackerService } from '../service/bird-track-service.js';
 //import { BirdLocationService } from './services/bird-location-service.js';
+import GeoCall  from './js/services/geoCall.js';
 
 let birdNames = [];
 const birdNameInputElement = document.querySelector("#birdName-input");
 
-function getAPIData() {
-  BirdTrackerService.getSpeciescode()
+export default function getAPIData(url) {
+  BirdTrackerService.getSpeciescode(url)
     .then(function(birdTrackerResponse) {
       if (birdTrackerResponse instanceof Error) {
         const errorMessage = `There was a problem accessing the bird data from eBird API,
@@ -79,6 +80,7 @@ function printError(error) {
 birdNameInputElement.addEventListener("input", onKeyInputChange);
 
 getAPIData();
+GeoCall.geoGrab('manual', 'portland-oregon');
 
 /*export function getAPIData(comNameInput) {
   return BirdTrackerService.getSpeciescode()

@@ -5,15 +5,18 @@ export default class GeoCall {
 //when the button is checked to manual, a text input field appears and whatever is entered is passed here as radioManualTxt
 // in HTML radio
 //in geograb call on index.js pass this checked radio button value as either 'ip' or 'manual'
+    let url;
     if (radioBtnVal === 'ip') {
-      const url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.MAPS_KEY}`;
+      url = `https://www.googleapis.com/geolocation/v1/geolocate?key=${process.env.MAPS_KEY}`;
     } else if (radioBtnVal === 'manual') {
       const userAddressApiArg = radioManualTxt.split('').join('+');
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${userAddressApiArg}&key=${process.env.MAPS_KEY}`;
+      url = `https://maps.googleapis.com/maps/api/geocode/json?address=${userAddressApiArg}&key=${process.env.MAPS_KEY}`;
     } else {
       //an error if the user manages to break the radio button binary choice
     }
-    
+    console.log('url in GeoGrab call: ');
+    console.log(url);
+
     fetch(url, {
       method: "POST"
     })
@@ -22,7 +25,21 @@ export default class GeoCall {
           const errorMessage = `${response.status} ${response.statusText}`;
           throw new Error(errorMessage);
         } else {
-          return response.json();
+          const jsonResponse = response.json(); 
+          console.log('jsonResponse');
+          console.log(jsonResponse);  
+          console.log(response);
+          let location;
+          if (radioBtnVal === 'ip') {
+            location = [jsonResponse['location']['lat'], jsonResponse['location']['lng']];
+          } else if (radioBtnVal === 'manual') {
+            console.log(jsonResponse.results[0].geometry.location);
+            location = [jsonResponse.results[0].location.lat, jsonResponse.results[0].geometry.location.lng];
+          }
+
+          console.log('location');
+          console.log(location);
+          return location;
         }
       })
       .catch((error) => {
