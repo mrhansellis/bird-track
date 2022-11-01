@@ -17,7 +17,7 @@ export default class GeoCall {
     console.log('url in GeoGrab call: ');
     console.log(url);
 
-    fetch(url, {
+    return fetch(url, {
       method: "POST"
     })
     .then((response) => {
