@@ -1,8 +1,8 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
-import BirdTrackerService from './services/bird-track-service.js';
-import GeoCall from './services/geoCall.js';
+import BirdTrackerService from './js/services/bird-track-service.js';
+import GeoCall from './js/services/geoCall.js';
 // Business Logic
 
 //Business Logic
@@ -32,7 +32,7 @@ const birdNameInputElement = document.querySelector("#birdName-input");
 
 function getAPIData(speciesCde = "",location = "") {
   
-  BirdTrackerService.getSpeciescode(speciesCde,location)
+  BirdTrackerService.getSpeciescode(speciesCde, location)
     .then(function(birdTrackerResponse) {
       if (birdTrackerResponse instanceof Error) {
         const errorMessage = `There was a problem accessing the bird data from eBird's API,
@@ -151,10 +151,13 @@ function handleFormSubmission(event) {
   const birdNameInput = document.querySelector('#birdName-input').value;
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
-  GeoCall.geo
+  GeoCall.geoGrab('manual', 'Portland,OR')
+  .then(function(location) {
+    console.log('location')
+    console.log(location);
   //console.log(locationResult['lat']);
-  getAPIData(speciesCode);
-
+    getAPIData(speciesCode, location);
+  });
   //This is where we will need to call google map and full eBird APIs
   //maybe we can make separate calls, one possible option is below
   // 1.latLang = getlanLat();
