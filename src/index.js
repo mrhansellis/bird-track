@@ -1,18 +1,19 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
-import BirdTrackerService from './service/bird-track-service.js';
-import  GeoCall from './service/geoCall.js';
+import BirdTrackerService from './js/services/bird-track-service.js';
+import GeoCall from './js/services/geoCall.js';
+// Business Logic
 
 //Business Logic
 
 //Variables needed in more than one function
 let birds = [];
 let targetBirdInfo = [];
-let locationResult= [];
+//let locationResult= [];
 const birdNameInputElement = document.querySelector("#birdName-input");
 
-function getGeoApiData( radioBtnVal, radioManualTxt){
+/*function getGeoApiData( radioBtnVal, radioManualTxt){
   GeoCall.geoGrab(radioBtnVal,radioManualTxt)
     .then(function(geoCallResponse) {
       if(geoCallResponse instanceof Error){
@@ -27,10 +28,11 @@ function getGeoApiData( radioBtnVal, radioManualTxt){
     .catch(function(error) {
       printError(error);
     });
-}
+}*/
 
 function getAPIData(speciesCde = "",location = "") {
-  BirdTrackerService.getSpeciescode(speciesCde,location)
+  
+  BirdTrackerService.getSpeciescode(speciesCde, location)
     .then(function(birdTrackerResponse) {
       if (birdTrackerResponse instanceof Error) {
         const errorMessage = `There was a problem accessing the bird data from eBird's API,
@@ -58,7 +60,8 @@ function getAPIData(speciesCde = "",location = "") {
             birdObject.lat = bird.lat;
             birdObject.lng = bird.lng;
             targetBirdInfo[index + 2] = birdObject;
-          });                
+          }); 
+          console.log(targetBirdInfo);               
         } 
       }     
     })
@@ -66,7 +69,6 @@ function getAPIData(speciesCde = "",location = "") {
       printError(error);
     });
 }
-
 
 //UI Logic
 
@@ -149,10 +151,13 @@ function handleFormSubmission(event) {
   const birdNameInput = document.querySelector('#birdName-input').value;
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
-  getGeoApiData('manual', 'Denver,CO');
-  console.log(locationResult['lat']);
-  getAPIData(speciesCode,locationResult);
-
+  GeoCall.geoGrab('manual', 'Portland,OR')
+  .then(function(location) {
+    console.log('location')
+    console.log(location);
+  //console.log(locationResult['lat']);
+    getAPIData(speciesCode, location);
+  });
   //This is where we will need to call google map and full eBird APIs
   //maybe we can make separate calls, one possible option is below
   // 1.latLang = getlanLat();
@@ -168,16 +173,161 @@ window.addEventListener("load", () => {
   getAPIData();
 });
 
-/*import { Loader } from "@googlemaps/js-api-loader";
 
-const loader = new Loader({
-  apiKey: `${process.env.MAPS_KEY}`,
-  version: "weekly"
-});
+/*function getLatLong() {
+  let radioBtnVal = 'manual';
 
-/*loader.load().then(() => {
-  //map = new google.maps.Map(document.getElementById('map'), {
-  //center: { lat: -34.397, lng: 150.644 },
-  zoom: 8,
-  });
-});*/
+  GeoCall.geoGrab(radioBtnVal, 'portland-oregon')
+    .then(function(geoResponse) {
+      if (geoResponse instanceof Error) {
+        const errorMessage = `There was a problem accessing the geo data from google map API,
+        Status code: ${geoResponse.message}`;
+        throw new Error(errorMessage);
+      }
+        if (radioBtnVal === 'ip') {
+          location = [geoResponse['location']['lat'], geoResponse['location']['lng']];
+        } else if (radioBtnVal === 'manual') {
+          location = geoResponse.results[0].geometry.location;
+        }    
+    })
+    .catch(function(error) {
+      printError(error);
+    });
+}*/
+
+
+/*function onKeyInputChange() {
+  
+  removeAutoDropDown ();
+  const filteredBirdNames = [];
+  const value = birdNameInputElement.value.toLowerCase();
+
+  if(value.lenght === 0) {
+    return;
+  } 
+  
+  if(value.length > 2) {
+
+    birdNames.forEach((birdName) => {
+      if(birdName.toLowerCase().includes(value)) {
+        filteredBirdNames.push(birdName); 
+      }
+    });
+  }
+  
+  createAutoCompleteDropDown(filteredBirdNames);
+}*/
+
+
+//birdNameInputElement.addEventListener("input", onKeyInputChange);
+
+
+/*function loadData(data,element) {
+  if (data) {
+    element.innerHTML = "";
+    let innerElement = "";
+
+    data.forEach((item)=> {
+      innerElement +=
+      `<li>${item}</li>`;
+    });
+    element.innerHTML = innerElement;
+  }
+}*/
+
+/*
+function filterData(data, searchText) { 
+  const regExp = new RegExp(`${searchText.toLowerCase()}`);
+  return data.filter((x) => x.toLowerCase().match(regExp));
+}*/
+
+
+/*
+function getAPIData(comNameInput) {
+  BirdTrackerService.getSpeciescode()
+    .then(function(birdTrackerResponse) {
+      if (birdTrackerResponse instanceof Error) {
+        const errorMessage = `There was a problem accessing the bird data from eBird API,
+        Status code: ${birdTrackerResponse.message}`;
+        throw new Error(errorMessage);
+      }
+      let searchResultIndex= [] ;
+      const regExp = new RegExp(`${comNameInput}`);
+
+      //for loop to search 
+      for (let i = 0; i < birdTrackerResponse.length; i++) {
+        if(birdTrackerResponse[i].comName.toString().toLowerCase().match(regExp)) {
+          searchResultIndex.push(i);
+          }
+        if(searchResultIndex.length === 11) {
+            break;
+        } 
+      } // end of for loop
+
+      // checking how matches has been found
+      if(searchResultIndex.length === 1){
+        console.log(birdTrackerResponse[searchResultIndex[0]].speciesCode);
+        return birdTrackerResponse[searchResultIndex[0]].speciesCode ;
+
+      } else if (searchResultIndex.length > 11) {
+        console.log("Your search result was too broad,please provide a more specific common name.");
+        return searchResultIndex.length;
+
+      } else if (searchResultIndex.length <=11 && searchResultIndex.length !== 0) {
+          for(const element of searchResultIndex) {
+            console.log(birdTrackerResponse[element].comName +" "+ birdTrackerResponse[element].speciesCode);
+          }
+        return searchResultIndex[0];  
+
+      } else {
+        console.log( "SpeciesCode was not found for " + comNameInput + " " + searchResultIndex.length);
+        return null;
+      }                  
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+
+let commonName = "Red-winged";*/
+
+
+
+
+
+/*if(birdTrackerResponse[i].comName.toString().toLowerCase() === comNameInput.toLowerCase()) {
+  console.log(birdTrackerResponse[i].speciesCode);
+  return birdTrackerResponse[i].speciesCode;
+}*/
+
+/*function printWeather(description, city) {
+  document.querySelector('#weather-description').innerText = `The weather in ${city} is ${description}.`;
+}
+
+function printError(error) {
+  document.querySelector('#error').innerText = error;
+}*/
+/*
+function getAPIDataII(speciesCode,location) {
+  WeatherService.getbirInfo(speciesCode)
+    .then(function(birdInfoResponse){
+      if (birdInfoResponse instanceof Error) {
+        const errorMessage = `There was a problem accessing the bird data from the ebird API for ${speciesCode}:
+        status code: ${birdInfoResponse.message}`;
+        throw new Error(errorMessage);
+      }
+      const birdInfo = birdInfoResponse;
+      return GiphyService.getGif(description);
+    })
+    .then(function(giphyResponse) {
+      if (giphyResponse instanceof Error) {
+        const errorMessage = `there was a problem accessing the gif data from Giphy API:
+        ${giphyResponse.response}.`;
+        throw new Error(errorMessage);
+      }
+      displayGif(giphyResponse, city);
+    })
+    .catch(function(error) {
+      printError(error);
+    });
+}*/

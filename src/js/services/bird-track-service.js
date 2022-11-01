@@ -4,7 +4,8 @@ export default class BirdTrackerService {
     if(speciesCde === "" && location === "" ) {
      url = "https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json";
     } else {
-      url = `https://api.ebird.org/v2/data/obs/geo/recent/${speciesCde}?lat=${location.lat}&lng=${location.lng}&key=${process.env.EBIRD_KEY}&back=30`;
+      url = `https://api.ebird.org/v2/data/obs/geo/recent/${speciesCde}?lat=${location[0]}&lng=${location[1]}&key=${process.env.EBIRD_KEY}&back=30`;
+      url = `https://api.ebird.org/v2/data/obs/geo/recent/${speciesCde}?lat=${location[0]}&lng=${location[1]}&key=${process.env.EBIRD_KEY}&back=30`;
     }
 
     return fetch(`${url}`)
