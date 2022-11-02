@@ -62,13 +62,13 @@ function getAPIData(speciesCde = "", location = "") {
             birdObject.lat = bird.lat;
             birdObject.lng = bird.lng;
             birdObject.locName = bird.locName;
-            birdObject.obsDt = bird.obsDt;
-            targetBirdInfo[index + 2] = birdObject;
-          });
-          console.log('running displayOutput');
-          displayOutput(targetBirdInfo);
-        }
-      }
+            birdObject.observationDate = bird.obsDt;
+            birdObject.numberOf = bird.howMany;
+            targetBirdInfo[index + 5] = birdObject;
+          }); 
+          console.log(targetBirdInfo);               
+        } 
+      }     
     })
     .catch(function (error) {
       printError(error);
@@ -195,15 +195,13 @@ function handleFormSubmission(event) {
   const birdNameInput = document.querySelector('#birdName-input').value;
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
-  if (typeof speciesCode !== "undefined") {
-  GeoCall.geoGrab('ip', '')
-    .then(function (location) {
-      console.log('location')
-      console.log(location);
-      //console.log(locationResult['lat']);
-      getAPIData(speciesCode, location);
-    });
-  }
+  GeoCall.geoGrab('manual', 'Portland,OR')
+  .then(function(location) {
+    console.log('location')
+    console.log(location);
+  //console.log(locationResult['lat']);
+    getAPIData(speciesCode, location);
+  });
   //This is where we will need to call google map and full eBird APIs
   //maybe we can make separate calls, one possible option is below
   // 1.latLang = getlanLat();
@@ -215,7 +213,7 @@ function handleFormSubmission(event) {
 birdNameInputElement.addEventListener("input", onKeyInputChange);
 
 window.addEventListener("load", () => {
-  document.querySelector('form').addEventListener("submit", handleFormSubmission);
+  document.getElementById('button').addEventListener("click", handleFormSubmission);
   getAPIData();
 });
 

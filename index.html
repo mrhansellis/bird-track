@@ -1,21 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <title>Document</title>
-</head>
-<body>
-    <form action="" autocomplete ="off">
-      <div id="autocomplete-list-div"class="autocomplete-list-div">
-        <input type="text" id="birdName-input" class="autocomplete-input" placeholder="Bird Name Search".>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bird Tracker</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <img src="./src/assets/images/logo.png" class="img" />
+        Bird Tracker
       </div>
-      <button type="submit" class="btn-submit">submit</button>
-    </form>
-    <div class="error">
-      <p id="error"></p>
+
+      <div class="form-div">
+        What bird are you looking for?
+        <div class="input-div">
+          <div id="autocomplete-list-div" class="autocomplete-list-div">
+            <form id="bird-input" autocomplete="off">
+              <input
+                type="text"
+                name="bird"
+                value=""
+                id="birdName-input"
+                class="inputBar"
+                placeholder="Bird Name Search"
+              />
+            </form>
+          </div>
+
+          <div class="search">
+            <button class="icon-button" type="submit" id="button">
+              <img src="./src/assets/images/search.png" class="img3" />
+              <img src="./src/assets/images/search2.png" class="img2" />
+              <img src="./src/assets/images/search3.png" class="img4" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="content" class="content-div">
+        <div id="map" class="map-div2">
+          <p id="error"></p>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
