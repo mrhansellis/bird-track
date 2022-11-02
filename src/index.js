@@ -209,6 +209,7 @@ function handleFormSubmission(event) {
   // 1.latLang = getlanLat();
   // 2. birdlocation = getBirdInfo( speciesCode, latLang)
   // 3. display(birdLocation, Latlang)
+  // 4. other stretch goals
 
 }
 
