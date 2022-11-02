@@ -61,7 +61,7 @@ function getAPIData(speciesCde = "",location = "") {
             birdObject.lng = bird.lng;
             targetBirdInfo[index + 2] = birdObject;
           }); 
-          console.log(targetBirdInfo);               
+          displayOutput(targetBirdInfo);               
         } 
       }     
     })
@@ -125,6 +125,17 @@ function onBirdButtonClick(e) {
   const buttonE1 = e.target;
   birdNameInputElement.value = buttonE1.innerHTML;
   removeAutoDropDown();
+}
+
+function displayOutput(birdOutputArray) { 
+  if (document.querySelector('div#outputDisplay')) {
+    let oldOutputDiv = document.querySelector('div#outputDisplay');
+  }
+  (document.querySelector('div.error')).innerHTML = '<p id="error"></p>';
+  oldOutputDiv.innerHTML = '';
+  let body = document.querySelector('body');
+  
+  body.append()
 }
 
 function printError(error) {
