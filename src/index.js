@@ -30,42 +30,43 @@ const birdNameInputElement = document.querySelector("#birdName-input");
     });
 }*/
 
-function getAPIData(speciesCde = "",location = "") {
-  
+function getAPIData(speciesCde = "", location = "") {
+
   BirdTrackerService.getSpeciescode(speciesCde, location)
-    .then(function(birdTrackerResponse) {
+    .then(function (birdTrackerResponse) {
       if (birdTrackerResponse instanceof Error) {
         const errorMessage = `There was a problem accessing the bird data from eBird's API,
         Status Code: ${birdTrackerResponse.message}`;
         throw new Error(errorMessage);
       }
-      if(speciesCde === "" && location == "") {
-        birdTrackerResponse.forEach((bird,index) => {
-          let birdObject = new Object();      
+      if (speciesCde === "" && location == "") {
+        birdTrackerResponse.forEach((bird, index) => {
+          let birdObject = new Object();
           birdObject.comName = bird.comName;
           birdObject.speciesCode = bird.speciesCode;
           birds[index] = birdObject;
         });
       } else {
-        if(!birdTrackerResponse.length){
-          let targetBird = birds.find(birdObject => birdObject.speciesCode ===`${speciesCde}`);
+        if (!birdTrackerResponse.length) {
+          let targetBird = birds.find(birdObject => birdObject.speciesCode === `${speciesCde}`);
           const message = `There hasn't been any recent sighting of "${targetBird.comName}s". Maybe try another birdy.`;
           printError(message);
         } else {
           targetBirdInfo[0] = birdTrackerResponse[0].comName;
           targetBirdInfo[1] = birdTrackerResponse[0].sciName;
 
-          birdTrackerResponse.forEach((bird,index) => {
-            let birdObject = new Object();      
+          birdTrackerResponse.forEach((bird, index) => {
+            let birdObject = new Object();
             birdObject.lat = bird.lat;
             birdObject.lng = bird.lng;
             targetBirdInfo[index + 2] = birdObject;
-          }); 
-          displayOutput(targetBirdInfo);               
-        } 
-      }     
+          });
+          console.log('running displayOutput');
+          displayOutput(targetBirdInfo);
+        }
+      }
     })
-    .catch(function(error) {
+    .catch(function (error) {
       printError(error);
     });
 }
@@ -73,24 +74,24 @@ function getAPIData(speciesCde = "",location = "") {
 //UI Logic
 
 function onKeyInputChange() {
-  
-  removeAutoDropDown ();
+
+  removeAutoDropDown();
   const filteredBirdNames = [];
   const value = birdNameInputElement.value.toLowerCase();
 
-  if(value.lenght === 0) {
+  if (value.lenght === 0) {
     return;
-  } 
-  
-  if(value.length > 2) {
+  }
 
-    birds.forEach((bird,index) => {
-      if(bird.comName.toLowerCase().includes(value)) {
-        filteredBirdNames[index] = bird.comName; 
+  if (value.length > 2) {
+
+    birds.forEach((bird, index) => {
+      if (bird.comName.toLowerCase().includes(value)) {
+        filteredBirdNames[index] = bird.comName;
       }
     });
   }
-  
+
   createAutoCompleteDropDown(filteredBirdNames);
 }
 
@@ -105,19 +106,19 @@ function createAutoCompleteDropDown(nameList) {
     birdNameBtn.innerHTML = birdName;
     birdNameBtn.addEventListener("click", onBirdButtonClick);
     listItem.appendChild(birdNameBtn);
-    listElement.appendChild(listItem); 
+    listElement.appendChild(listItem);
   });
   document.querySelector("#autocomplete-list-div").appendChild(listElement);
-} 
+}
 
-function removeAutoDropDown () {
+function removeAutoDropDown() {
   const listElement = document.querySelector("#autocomplete-list");
   const errorMessage = document.querySelector("#error");
 
-  if(listElement){
+  if (listElement) {
     listElement.remove();
-  } 
-    errorMessage.setAttribute("class", "hide");
+  }
+  errorMessage.setAttribute("class", "hide");
 }
 
 function onBirdButtonClick(e) {
@@ -127,27 +128,33 @@ function onBirdButtonClick(e) {
   removeAutoDropDown();
 }
 
-function displayOutput(birdOutputArray) { 
-  if (document.querySelector('div#outputDisplay')) {
+function displayOutput(birdOutputArray) {
+  let bool = Boolean(document.querySelector('div#outputDisplay') === null)
+  if (bool) {
     let outputDiv = document.createElement('div');
     outputDiv.setAttribute('id', 'outputDisplay');
+    document.querySelector('body').append(outputDiv);
   }
-  (document.querySelector('div.error')).innerHTML = '<p id="error"></p>';
-  (document.querySelector('div.error')).setAttribute('class', 'hidden');
   let oldOutputDiv = document.querySelector('div#outputDisplay');
-  oldOutputDiv.innerHTML = '';
+  console.log(oldOutputDiv);
+  (document.querySelector('div.error')).innerHTML = '<p id="error"></p>';
+  console.log('test2');
+  oldOutputDiv.innerText = null;
   oldOutputDiv.setAttribute('id', 'outputDisplay');
-  let body = document.querySelector('body');
   let pTag = document.createElement('p');
   pTag.innerHTML = `<p>The species ${birdOutputArray[1]} commonly known as ${birdOutputArray[0]} has been found in the following locations:</p>`;
-  let ulText = document.createElement('ul');;
+  let ulText = document.createElement('ul');
   //change this to change the number of birds
-  for (let i = 2; i < 12; i+2) {
-    ulText.innerHTML = ulText.innerHTML + `<li> Latitude: ${birdOutputArray[i]}</li> <li> Longitutde: ${birdOutputArray[i+1]}</li><br>`;
+  for (let i = 2; i < 7; i++) {
+    ulText.innerHTML = ulText.innerHTML + `<li> Latitude: ${birdOutputArray[i]['lat']}</li> <li> Longitude: ${birdOutputArray[i]['lng']}</li><br>`;
   }
-  ul.prepend(pTag);
-  ul.append(ulText);
-  oldOutputDiv.append(ul);
+  console.log('ul');
+  console.log(ulText.innerHTML);
+  //  oldOutputDiv.innerHTML = `${pTag} ${ulText}`
+  oldOutputDiv.prepend(pTag);
+  oldOutputDiv.append(ulText);
+  //  oldOutputDiv.append(ul);
+  let body = document.querySelector('body');
   body.append(oldOutputDiv);
 }
 
@@ -159,35 +166,35 @@ function printError(error) {
 }
 
 function getSpeciesCode(birdNameInput) {
-  let targetBird = birds.find(birdObject => birdObject.comName ===`${birdNameInput}`);
-  
+  let targetBird = birds.find(birdObject => birdObject.comName === `${birdNameInput}`);
+
   if (typeof targetBird === "undefined") {
     const errorMessage = `Oops , we don't have "${birdNameInput}" as a common bird name. Please try again.`;
     printError(errorMessage);
   } else {
-  return targetBird.speciesCode;
+    return targetBird.speciesCode;
   }
 }
 
 function handleFormSubmission(event) {
-  
+
   event.preventDefault();
   const birdNameInput = document.querySelector('#birdName-input').value;
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
   GeoCall.geoGrab('manual', 'Portland,OR')
-  .then(function(location) {
-    console.log('location')
-    console.log(location);
-  //console.log(locationResult['lat']);
-    getAPIData(speciesCode, location);
-  });
+    .then(function (location) {
+      console.log('location')
+      console.log(location);
+      //console.log(locationResult['lat']);
+      getAPIData(speciesCode, location);
+    });
   //This is where we will need to call google map and full eBird APIs
   //maybe we can make separate calls, one possible option is below
   // 1.latLang = getlanLat();
   // 2. birdlocation = getBirdInfo( speciesCode, latLang)
   // 3. display(birdLocation, Latlang)
-  
+
 }
 
 birdNameInputElement.addEventListener("input", onKeyInputChange);
@@ -212,7 +219,7 @@ window.addEventListener("load", () => {
           location = [geoResponse['location']['lat'], geoResponse['location']['lng']];
         } else if (radioBtnVal === 'manual') {
           location = geoResponse.results[0].geometry.location;
-        }    
+        }
     })
     .catch(function(error) {
       printError(error);
@@ -221,24 +228,24 @@ window.addEventListener("load", () => {
 
 
 /*function onKeyInputChange() {
-  
+
   removeAutoDropDown ();
   const filteredBirdNames = [];
   const value = birdNameInputElement.value.toLowerCase();
 
   if(value.lenght === 0) {
     return;
-  } 
-  
+  }
+
   if(value.length > 2) {
 
     birdNames.forEach((birdName) => {
       if(birdName.toLowerCase().includes(value)) {
-        filteredBirdNames.push(birdName); 
+        filteredBirdNames.push(birdName);
       }
     });
   }
-  
+
   createAutoCompleteDropDown(filteredBirdNames);
 }*/
 
