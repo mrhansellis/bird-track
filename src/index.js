@@ -35,6 +35,7 @@ function getAPIData(speciesCde = "", location = "") {
   BirdTrackerService.getSpeciescode(speciesCde, location)
     .then(function (birdTrackerResponse) {
       if (birdTrackerResponse instanceof Error) {
+        clearResults();
         const errorMessage = `There was a problem accessing the bird data from eBird's API,
         Status Code: ${birdTrackerResponse.message}`;
         throw new Error(errorMessage);
@@ -48,6 +49,7 @@ function getAPIData(speciesCde = "", location = "") {
         });
       } else {
         if (!birdTrackerResponse.length) {
+          clearResults();
           let targetBird = birds.find(birdObject => birdObject.speciesCode === `${speciesCde}`);
           const message = `There hasn't been any recent sighting of "${targetBird.comName}s". Maybe try another birdy.`;
           printError(message);
@@ -59,6 +61,8 @@ function getAPIData(speciesCde = "", location = "") {
             let birdObject = new Object();
             birdObject.lat = bird.lat;
             birdObject.lng = bird.lng;
+            birdObject.locName = bird.locName;
+            birdObject.obsDt = bird.obsDt;
             targetBirdInfo[index + 2] = birdObject;
           });
           console.log('running displayOutput');
@@ -138,7 +142,7 @@ function displayOutput(birdOutputArray) {
   let oldOutputDiv = document.querySelector('div#outputDisplay');
   console.log(oldOutputDiv);
   (document.querySelector('div.error')).innerHTML = '<p id="error"></p>';
-  console.log('test2');
+  //console.log('test2');
   oldOutputDiv.innerText = null;
   oldOutputDiv.setAttribute('id', 'outputDisplay');
   let pTag = document.createElement('p');
@@ -146,7 +150,7 @@ function displayOutput(birdOutputArray) {
   let ulText = document.createElement('ul');
   //change this to change the number of birds
   for (let i = 2; i < 7; i++) {
-    ulText.innerHTML = ulText.innerHTML + `<li> Latitude: ${birdOutputArray[i]['lat']}</li> <li> Longitude: ${birdOutputArray[i]['lng']}</li><br>`;
+    ulText.innerHTML = ulText.innerHTML +  `<li> Location: ${birdOutputArray[i]['locName']}</li> <li> Last Seen: ${birdOutputArray[i]['obsDt']}</li> <li> Latitude: ${birdOutputArray[i]['lat']}</li> <li> Longitude: ${birdOutputArray[i]['lng']}</li><br>`;
   }
   console.log('ul');
   console.log(ulText.innerHTML);
@@ -169,6 +173,7 @@ function getSpeciesCode(birdNameInput) {
   let targetBird = birds.find(birdObject => birdObject.comName === `${birdNameInput}`);
 
   if (typeof targetBird === "undefined") {
+    clearResults();
     const errorMessage = `Oops , we don't have "${birdNameInput}" as a common bird name. Please try again.`;
     printError(errorMessage);
   } else {
@@ -176,19 +181,29 @@ function getSpeciesCode(birdNameInput) {
   }
 }
 
-function handleFormSubmission(event) {
+function clearResults() {
+    let element =  document.getElementById("outputDisplay");
+  if (typeof(element) !== 'undefined' && element !== null) {
+  let outputDiv = document.getElementById("outputDisplay");
+  outputDiv.parentNode.removeChild(outputDiv);
+    }
+  }
 
+
+function handleFormSubmission(event) {
   event.preventDefault();
   const birdNameInput = document.querySelector('#birdName-input').value;
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
-  GeoCall.geoGrab('manual', 'Portland,OR')
+  if (typeof speciesCode !== "undefined") {
+  GeoCall.geoGrab('ip', '')
     .then(function (location) {
       console.log('location')
       console.log(location);
       //console.log(locationResult['lat']);
       getAPIData(speciesCode, location);
     });
+  }
   //This is where we will need to call google map and full eBird APIs
   //maybe we can make separate calls, one possible option is below
   // 1.latLang = getlanLat();
