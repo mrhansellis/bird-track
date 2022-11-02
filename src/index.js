@@ -59,7 +59,10 @@ function getAPIData(speciesCde = "",location = "") {
             let birdObject = new Object();      
             birdObject.lat = bird.lat;
             birdObject.lng = bird.lng;
-            targetBirdInfo[index + 2] = birdObject;
+            birdObject.locName = bird.locName;
+            birdObject.observationDate = bird.obsDt;
+            birdObject.numberOf = bird.howMany;
+            targetBirdInfo[index + 5] = birdObject;
           }); 
           console.log(targetBirdInfo);               
         } 
@@ -151,7 +154,7 @@ function handleFormSubmission(event) {
   const birdNameInput = document.querySelector('#birdName-input').value;
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
-  GeoCall.geoGrab('manual', 'Portland,OR')
+  GeoCall.geoGrab('ip', '')
   .then(function(location) {
     console.log('location')
     console.log(location);
@@ -169,7 +172,7 @@ function handleFormSubmission(event) {
 birdNameInputElement.addEventListener("input", onKeyInputChange);
 
 window.addEventListener("load", () => {
-  document.querySelector('form').addEventListener("submit", handleFormSubmission);
+  document.getElementById('button').addEventListener("click", handleFormSubmission);
   getAPIData();
 });
 
