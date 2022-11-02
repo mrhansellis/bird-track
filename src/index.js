@@ -129,13 +129,26 @@ function onBirdButtonClick(e) {
 
 function displayOutput(birdOutputArray) { 
   if (document.querySelector('div#outputDisplay')) {
-    let oldOutputDiv = document.querySelector('div#outputDisplay');
+    let outputDiv = document.createElement('div');
+    outputDiv.setAttribute('id', 'outputDisplay');
   }
   (document.querySelector('div.error')).innerHTML = '<p id="error"></p>';
+  (document.querySelector('div.error')).setAttribute('class', 'hidden');
+  let oldOutputDiv = document.querySelector('div#outputDisplay');
   oldOutputDiv.innerHTML = '';
+  oldOutputDiv.setAttribute('id', 'outputDisplay');
   let body = document.querySelector('body');
-  
-  body.append()
+  let pTag = document.createElement('p');
+  pTag.innerHTML = `<p>The species ${birdOutputArray[1]} commonly known as ${birdOutputArray[0]} has been found in the following locations:</p>`;
+  let ulText = document.createElement('ul');;
+  //change this to change the number of birds
+  for (let i = 2; i < 12; i+2) {
+    ulText.innerHTML = ulText.innerHTML + `<li> Latitude: ${birdOutputArray[i]}</li> <li> Longitutde: ${birdOutputArray[i+1]}</li><br>`;
+  }
+  ul.prepend(pTag);
+  ul.append(ulText);
+  oldOutputDiv.append(ul);
+  body.append(oldOutputDiv);
 }
 
 function printError(error) {
