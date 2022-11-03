@@ -137,14 +137,12 @@ function displayOutput(birdOutputArray) {
   if (bool) {
     let outputDiv = document.createElement('div');
     outputDiv.setAttribute('id', 'outputDisplay');
-    document.querySelector('body').append(outputDiv);
+    document.querySelector('div#map').append(outputDiv);
   }
   let oldOutputDiv = document.querySelector('div#outputDisplay');
   console.log(oldOutputDiv);
-  (document.querySelector('div.error')).innerHTML = '<p id="error"></p>';
-  //console.log('test2');
-  oldOutputDiv.innerText = null;
-  oldOutputDiv.setAttribute('id', 'outputDisplay');
+  (document.querySelector('p#error')).innerHTML = '';
+  oldOutputDiv.innerText = '';
   let pTag = document.createElement('p');
   pTag.innerHTML = `<p>The species ${birdOutputArray[1]} commonly known as ${birdOutputArray[0]} has been found in the following locations:</p>`;
   let ulText = document.createElement('ul');
@@ -154,12 +152,10 @@ function displayOutput(birdOutputArray) {
   }
   console.log('ul');
   console.log(ulText.innerHTML);
-  //  oldOutputDiv.innerHTML = `${pTag} ${ulText}`
   oldOutputDiv.prepend(pTag);
   oldOutputDiv.append(ulText);
-  //  oldOutputDiv.append(ul);
-  let body = document.querySelector('body');
-  body.append(oldOutputDiv);
+  let mapDiv = document.querySelector('div#map');
+  mapDiv.append(oldOutputDiv);
 }
 
 function printError(error) {
@@ -195,15 +191,6 @@ function handleFormSubmission(event) {
   const birdNameInput = document.querySelector('#birdName-input').value;
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
-<<<<<<<<< Temporary merge branch 1
-  GeoCall.geoGrab('ip', '')
-  .then(function(location) {
-    console.log('location')
-    console.log(location);
-  //console.log(locationResult['lat']);
-    getAPIData(speciesCode, location);
-  });
-=========
   if (typeof speciesCode !== "undefined") {
   GeoCall.geoGrab('ip', '')
     .then(function (location) {
@@ -213,7 +200,7 @@ function handleFormSubmission(event) {
       getAPIData(speciesCode, location);
     });
   }
->>>>>>>>> Temporary merge branch 2
+
   //This is where we will need to call google map and full eBird APIs
   //maybe we can make separate calls, one possible option is below
   // 1.latLang = getlanLat();
