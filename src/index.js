@@ -216,7 +216,7 @@ function handleFormSubmission(event) {
 birdNameInputElement.addEventListener("input", onKeyInputChange);
 
 window.addEventListener("load", () => {
-  document.querySelector('form').addEventListener("submit", handleFormSubmission);
+  document.getElementById('button').addEventListener("click", handleFormSubmission);
   getAPIData();
 });
 
