@@ -3,35 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import BirdTrackerService from './js/services/bird-track-service.js';
 import GeoCall from './js/services/geoCall.js';
-// Business Logic
 
-//Business Logic
+// Business Logic
 
 //Variables needed in more than one function
 let birds = [];
 let targetBirdInfo = [];
-//let locationResult= [];
 const birdNameInputElement = document.querySelector("#birdName-input");
 
-/*function getGeoApiData( radioBtnVal, radioManualTxt){
-  GeoCall.geoGrab(radioBtnVal,radioManualTxt)
-    .then(function(geoCallResponse) {
-      if(geoCallResponse instanceof Error){
-        const errorMessage = `There was a problem accessing the location data from google's map API,
-        Status Code: ${geoCallResponse.message}`;
-        throw new Error(errorMessage);
-      }
-      geoCallResponse.forEach((element) => {
-        console(element);
-      });
-    })
-    .catch(function(error) {
-      printError(error);
-    });
-}*/
-
 function getAPIData(speciesCde = "", location = "") {
-
   BirdTrackerService.getSpeciescode(speciesCde, location)
     .then(function (birdTrackerResponse) {
       if (birdTrackerResponse instanceof Error) {
@@ -65,7 +45,6 @@ function getAPIData(speciesCde = "", location = "") {
             birdObject.obsDt = bird.obsDt;
             targetBirdInfo[index + 2] = birdObject;
           });
-          console.log('running displayOutput');
           displayOutput(targetBirdInfo);
         }
       }
@@ -133,14 +112,13 @@ function onBirdButtonClick(e) {
 }
 
 function displayOutput(birdOutputArray) {
-  let bool = Boolean(document.querySelector('div#outputDisplay') === null)
+  let bool = Boolean(document.querySelector('div#outputDisplay') === null);
   if (bool) {
     let outputDiv = document.createElement('div');
     outputDiv.setAttribute('id', 'outputDisplay');
     document.querySelector('div#map').append(outputDiv);
   }
   let oldOutputDiv = document.querySelector('div#outputDisplay');
-  console.log(oldOutputDiv);
   (document.querySelector('p#error')).innerHTML = '';
   oldOutputDiv.innerText = '';
   let pTag = document.createElement('p');
@@ -148,10 +126,8 @@ function displayOutput(birdOutputArray) {
   let ulText = document.createElement('ul');
   //change this to change the number of birds
   for (let i = 2; i < 7; i++) {
-    ulText.innerHTML = ulText.innerHTML +  `<li> Location: ${birdOutputArray[i]['locName']}</li> <li> Last Seen: ${birdOutputArray[i]['obsDt']}</li> <li> Latitude: ${birdOutputArray[i]['lat']}</li> <li> Longitude: ${birdOutputArray[i]['lng']}</li><br>`;
+    ulText.innerHTML = ulText.innerHTML + `<li> Location: ${birdOutputArray[i]['locName']}</li> <li> Last Seen: ${birdOutputArray[i]['obsDt']}</li> <li> Latitude: ${birdOutputArray[i]['lat']}</li> <li> Longitude: ${birdOutputArray[i]['lng']}</li><br>`;
   }
-  console.log('ul');
-  console.log(ulText.innerHTML);
   oldOutputDiv.prepend(pTag);
   oldOutputDiv.append(ulText);
   let mapDiv = document.querySelector('div#map');
@@ -178,13 +154,12 @@ function getSpeciesCode(birdNameInput) {
 }
 
 function clearResults() {
-    let element =  document.getElementById("outputDisplay");
-  if (typeof(element) !== 'undefined' && element !== null) {
-  let outputDiv = document.getElementById("outputDisplay");
-  outputDiv.parentNode.removeChild(outputDiv);
-    }
+  let element = document.getElementById("outputDisplay");
+  if (typeof (element) !== 'undefined' && element !== null) {
+    let outputDiv = document.getElementById("outputDisplay");
+    outputDiv.parentNode.removeChild(outputDiv);
   }
-
+}
 
 function handleFormSubmission(event) {
   event.preventDefault();
@@ -192,23 +167,19 @@ function handleFormSubmission(event) {
   document.querySelector('#birdName-input').value = null;
   let speciesCode = getSpeciesCode(birdNameInput);
   if (typeof speciesCode !== "undefined") {
-  GeoCall.geoGrab('ip', '')
-    .then(function (location) {
-      console.log('location')
-      console.log(location);
-      //console.log(locationResult['lat']);
-      getAPIData(speciesCode, location);
-    });
+    GeoCall.geoGrab('ip', '')
+      .then(function (location) {
+        getAPIData(speciesCode, location);
+      });
   }
-
-  //This is where we will need to call google map and full eBird APIs
-  //maybe we can make separate calls, one possible option is below
-  // 1.latLang = getlanLat();
-  // 2. birdlocation = getBirdInfo( speciesCode, latLang)
-  // 3. display(birdLocation, Latlang)
-  // 4. other stretch goals
-
 }
+
+//This is where we will need to call google map and full eBird APIs
+//maybe we can make separate calls, one possible option is below
+// 1.latLang = getlanLat();
+// 2. birdlocation = getBirdInfo( speciesCode, latLang)
+// 3. display(birdLocation, Latlang)
+// 4. other stretch goals
 
 birdNameInputElement.addEventListener("input", onKeyInputChange);
 
@@ -216,162 +187,3 @@ window.addEventListener("load", () => {
   document.getElementById('button').addEventListener("click", handleFormSubmission);
   getAPIData();
 });
-
-
-/*function getLatLong() {
-  let radioBtnVal = 'manual';
-
-  GeoCall.geoGrab(radioBtnVal, 'portland-oregon')
-    .then(function(geoResponse) {
-      if (geoResponse instanceof Error) {
-        const errorMessage = `There was a problem accessing the geo data from google map API,
-        Status code: ${geoResponse.message}`;
-        throw new Error(errorMessage);
-      }
-        if (radioBtnVal === 'ip') {
-          location = [geoResponse['location']['lat'], geoResponse['location']['lng']];
-        } else if (radioBtnVal === 'manual') {
-          location = geoResponse.results[0].geometry.location;
-        }
-    })
-    .catch(function(error) {
-      printError(error);
-    });
-}*/
-
-
-/*function onKeyInputChange() {
-
-  removeAutoDropDown ();
-  const filteredBirdNames = [];
-  const value = birdNameInputElement.value.toLowerCase();
-
-  if(value.lenght === 0) {
-    return;
-  }
-
-  if(value.length > 2) {
-
-    birdNames.forEach((birdName) => {
-      if(birdName.toLowerCase().includes(value)) {
-        filteredBirdNames.push(birdName);
-      }
-    });
-  }
-
-  createAutoCompleteDropDown(filteredBirdNames);
-}*/
-
-
-//birdNameInputElement.addEventListener("input", onKeyInputChange);
-
-
-/*function loadData(data,element) {
-  if (data) {
-    element.innerHTML = "";
-    let innerElement = "";
-
-    data.forEach((item)=> {
-      innerElement +=
-      `<li>${item}</li>`;
-    });
-    element.innerHTML = innerElement;
-  }
-}*/
-
-/*
-function filterData(data, searchText) { 
-  const regExp = new RegExp(`${searchText.toLowerCase()}`);
-  return data.filter((x) => x.toLowerCase().match(regExp));
-}*/
-
-
-/*
-function getAPIData(comNameInput) {
-  BirdTrackerService.getSpeciescode()
-    .then(function(birdTrackerResponse) {
-      if (birdTrackerResponse instanceof Error) {
-        const errorMessage = `There was a problem accessing the bird data from eBird API,
-        Status code: ${birdTrackerResponse.message}`;
-        throw new Error(errorMessage);
-      }
-      let searchResultIndex= [] ;
-      const regExp = new RegExp(`${comNameInput}`);
-
-      //for loop to search 
-      for (let i = 0; i < birdTrackerResponse.length; i++) {
-        if(birdTrackerResponse[i].comName.toString().toLowerCase().match(regExp)) {
-          searchResultIndex.push(i);
-          }
-        if(searchResultIndex.length === 11) {
-            break;
-        } 
-      } // end of for loop
-
-      // checking how matches has been found
-      if(searchResultIndex.length === 1){
-        console.log(birdTrackerResponse[searchResultIndex[0]].speciesCode);
-        return birdTrackerResponse[searchResultIndex[0]].speciesCode ;
-
-      } else if (searchResultIndex.length > 11) {
-        console.log("Your search result was too broad,please provide a more specific common name.");
-        return searchResultIndex.length;
-
-      } else if (searchResultIndex.length <=11 && searchResultIndex.length !== 0) {
-          for(const element of searchResultIndex) {
-            console.log(birdTrackerResponse[element].comName +" "+ birdTrackerResponse[element].speciesCode);
-          }
-        return searchResultIndex[0];  
-
-      } else {
-        console.log( "SpeciesCode was not found for " + comNameInput + " " + searchResultIndex.length);
-        return null;
-      }                  
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-}
-
-let commonName = "Red-winged";*/
-
-
-
-
-
-/*if(birdTrackerResponse[i].comName.toString().toLowerCase() === comNameInput.toLowerCase()) {
-  console.log(birdTrackerResponse[i].speciesCode);
-  return birdTrackerResponse[i].speciesCode;
-}*/
-
-/*function printWeather(description, city) {
-  document.querySelector('#weather-description').innerText = `The weather in ${city} is ${description}.`;
-}
-
-function printError(error) {
-  document.querySelector('#error').innerText = error;
-}*/
-/*
-function getAPIDataII(speciesCode,location) {
-  WeatherService.getbirInfo(speciesCode)
-    .then(function(birdInfoResponse){
-      if (birdInfoResponse instanceof Error) {
-        const errorMessage = `There was a problem accessing the bird data from the ebird API for ${speciesCode}:
-        status code: ${birdInfoResponse.message}`;
-        throw new Error(errorMessage);
-      }
-      const birdInfo = birdInfoResponse;
-      return GiphyService.getGif(description);
-    })
-    .then(function(giphyResponse) {
-      if (giphyResponse instanceof Error) {
-        const errorMessage = `there was a problem accessing the gif data from Giphy API:
-        ${giphyResponse.response}.`;
-        throw new Error(errorMessage);
-      }
-      displayGif(giphyResponse, city);
-    })
-    .catch(function(error) {
-      printError(error);
-    });
-}*/
